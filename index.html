@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Tagging</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Upload and Manage Images</h1>
+
+    <form id="uploadForm">
+        <label for="imageFile">Select an image:</label>
+        <input type="file" id="imageFile" accept="image/*">
+
+        <label for="imageTag">Enter tags (comma-separated):</label>
+        <input type="text" id="imageTag" placeholder="Tag1, Tag2">
+
+        <button type="submit">Upload Image</button>
+    </form>
+
+    <div id="gallery">
+        <h2>Your Images</h2>
+        <h2>Filter Images by Tag</h2>
+        <select id="tagFilter" onchange="filterByTag()">
+            <option value="all">All</option>
+        </select>
+        <div id="imageContainer"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
