@@ -23,11 +23,20 @@
 
     <div id="gallery">
         <h2>Your Images</h2>
-        <h2>Filter Images by Tag</h2>
+        <h2>Filter Library by Tag</h2>
         <select id="tagFilter" onchange="filterByTag()">
             <option value="all">All</option>
         </select>
         <div id="imageContainer"></div>
+
+
+        <h2>Filter Trash by Tag</h2>
+        <select id="trashTagFilter" onchange="filterTrashByTag()">
+            <option value="all">All</option>
+        </select>
+        <h2>Trash</h2>
+        <div id="trashContainer"></div>
+
     </div>
 
     <script src="app.js"></script>
