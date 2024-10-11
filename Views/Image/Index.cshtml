@@ -10,21 +10,22 @@
 </form>
 
 <!-- Bố cục dạng card -->
-<div class="card-container mt4">
+<div class="card-container mt-4">
     @foreach (var image in Model)
     {
         <div class="card" data-image-id="@image.Id">
-            <img src="@Url.Content("~/images/" + System.IO.Path.GetFileName(image.ImageUrl))" alt="Image" class="image" />
-            <div class="tags"><strong>Tags: </strong>@image.Tags</div>
-            <form method="post" action="/Image/Delete/@image.Id" class="delete-form">
-                <button type="submit" class="delete-button">Delete</button>
-            </form>
+            <img src="@image.ImageUrl" alt="Image" class="image" />
+            <div class="card-content">
+                <div class="tags"><strong>Tags: </strong>@image.Tags</div>
+                <form method="post" action="/Image/Delete/@image.Id" class="delete-form">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </div>
         </div>
     }
 </div>
 
-
-<!-- CSS tùy chỉnh cho bố cục card -->
+<!-- Updated CSS for card layout -->
 <style>
     .card-container {
         display: flex;
@@ -33,6 +34,9 @@
     }
 
     .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         border: 1px solid #ddd;
         border-radius: 8px;
         padding: 10px;
@@ -46,9 +50,16 @@
             border-radius: 8px;
         }
 
-    .tags {
+    .card-content {
         margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .tags {
         font-size: 14px;
+        margin-top: auto;
     }
 
     .delete-form {
@@ -68,6 +79,8 @@
             background-color: #c0392b;
         }
 </style>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
 
 <script type="text/javascript">
@@ -83,15 +96,31 @@
     // Xử lý khi nhận ảnh mới
     connection.on("ReceiveNewImage", function (imageId, imageUrl, tags) {
         const cardContainer = document.querySelector('.card-container');
+        alert(1);
         const newCard = `
                 <div class="card" data-image-id="${imageId}">
-                    <img src="${imageUrl}" class="image" />
+                        <img src="${imageUrl}" alt="Image" class="image" />
                     <div class="tags"><strong>Tags: </strong>${tags}</div>
                     <form method="post" action="/Image/Delete/${imageId}" class="delete-form">
                         <button type="submit" class="delete-button">Delete</button>
                     </form>
                 </div>
             `;
+        cardContainer.insertAdjacentHTML('beforeend', newCard);
+    });
+
+    connection.on("ReceiveRestoreImage", function (imageId, imageUrl, tags) {
+        const cardContainer = document.querySelector('.card-container');
+        const newCard = `
+                    <div class="card" data-image-id="${imageId}">
+                            <img src="${imageUrl}" alt="Image" class="image" />
+                        <div class="tags"><strong>Tags: </strong>${tags}</div>
+                        <form method="post" action="/Image/Delete/${imageId}" class="delete-form">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </div>
+                `;
+        console.log("11234", cardContainer);
         cardContainer.insertAdjacentHTML('beforeend', newCard);
     });
 

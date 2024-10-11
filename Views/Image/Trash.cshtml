@@ -7,11 +7,7 @@
 
 <h2>Trash Bin</h2>
 
-@if (!Model.Any())
-{
-    <p>No images in the trash.</p>
-}
-else
+@if (Model.Any())
 {
     <table class="table">
         <thead>
@@ -25,7 +21,9 @@ else
             @foreach (var image in Model)
             {
                 <tr>
-                    <td><img src="@image.ImageUrl" width="100" /></td>
+                    <td>
+                        <img src="@image.ImageUrl" width="100" />
+                    </td>
                     <td>@image.Tags</td>
                     <td>
                         <form method="post" action="/Image/Restore/@image.Id" style="display:inline;">
@@ -57,22 +55,56 @@ else
 
     // Xử lý khi nhận thông báo khôi phục ảnh
     connection.on("ReceiveDeleteImage", function (imageId, imageUrl, tags) {
-        const tableBody = document.querySelector("tbody"); // Chọn tbody của bảng
-        const newRow = `
-            <tr>
-                <td><img src="${imageUrl}" width="100" /></td>
-                <td>${tags}</td>
-                <td>
-                    <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
-                        <button type="submit" class="btn btn-success">Restore</button>
-                    </form>
-                    <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
-                        <button type="submit" class="btn btn-danger">Delete Permanently</button>
-                    </form>
-                </td>
-            </tr>
-        `;
-        tableBody.insertAdjacentHTML('beforeend', newRow); // Thêm hàng mới vào bảng
+        // Kiểm tra xem bảng đã tồn tại chưa
+        let table = document.querySelector(".table");
+
+        if (!table) {
+            // Nếu chưa có bảng, tạo bảng mới
+            const tableHtml = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Tags</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="${imageUrl}" width="100" /></td>
+                                <td>${tags}</td>
+                                <td>
+                                    <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
+                                        <button type="submit" class="btn btn-success">Restore</button>
+                                    </form>
+                                    <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger">Delete Permanently</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            // Thêm bảng mới vào DOM
+            document.querySelector("h2").insertAdjacentHTML('afterend', tableHtml);
+        } else {
+            // Nếu bảng đã tồn tại, chỉ thêm một hàng mới
+            const tableBody = table.querySelector("tbody");
+            const newRow = `
+                    <tr>
+                        <td><img src="${imageUrl}" width="100" /></td>
+                        <td>${tags}</td>
+                        <td>
+                            <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
+                                <button type="submit" class="btn btn-success">Restore</button>
+                            </form>
+                            <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Delete Permanently</button>
+                            </form>
+                        </td>
+                    </tr>
+                `;
+            tableBody.insertAdjacentHTML('beforeend', newRow);
+        }
     });
-});
 </script>

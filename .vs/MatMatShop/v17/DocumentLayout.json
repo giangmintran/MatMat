@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "D:\\Code\\MatMatShop\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\views\\image\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:views\\image\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\views\\image\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:views\\image\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\controllers\\imagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:controllers\\imagecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\views\\image\\upload.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:views\\image\\upload.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\views\\image\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:views\\image\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\views\\image\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:views\\image\\trash.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\infrastructure\\hubs\\imagehub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,6 +25,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -55,10 +59,6 @@
       "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:entities\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\views\\image\\upload.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:views\\image\\upload.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|d:\\code\\matmatshop\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{0AB568FC-5661-42C2-8D49-07889F7093F6}|MatMatShop.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
@@ -82,7 +82,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 213,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -127,7 +127,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Error.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\Shared\\Error.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\Error.cshtml",
@@ -140,7 +140,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -153,7 +153,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -166,7 +166,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Privacy.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\Home\\Privacy.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
@@ -179,7 +179,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -192,7 +192,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
@@ -205,39 +205,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Trash.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\Image\\Trash.cshtml",
               "RelativeDocumentMoniker": "Views\\Image\\Trash.cshtml",
               "ToolTip": "D:\\Code\\MatMatShop\\Views\\Image\\Trash.cshtml",
               "RelativeToolTip": "Views\\Image\\Trash.cshtml",
-              "ViewState": "AQIAABsAAAAAAAAAAAAwwEAAAAAUAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABgAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-11T05:20:06.212Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 2,
               "Title": "Upload.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\Image\\Upload.cshtml",
               "RelativeDocumentMoniker": "Views\\Image\\Upload.cshtml",
               "ToolTip": "D:\\Code\\MatMatShop\\Views\\Image\\Upload.cshtml",
               "RelativeToolTip": "Views\\Image\\Upload.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-11T05:18:41.614Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Views\\Image\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Image\\Index.cshtml",
               "ToolTip": "D:\\Code\\MatMatShop\\Views\\Image\\Index.cshtml",
               "RelativeToolTip": "Views\\Image\\Index.cshtml",
-              "ViewState": "AQIAADEAAAAAAAAAAAAAwFoAAAAjAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-10-11T05:18:26.488Z",
               "EditorCaption": ""
@@ -250,7 +250,7 @@
               "RelativeDocumentMoniker": "Controllers\\ImageController.cs",
               "ToolTip": "D:\\Code\\MatMatShop\\Controllers\\ImageController.cs",
               "RelativeToolTip": "Controllers\\ImageController.cs",
-              "ViewState": "AQIAAEEAAAAAAAAAAAAtwFsAAAANAAAA",
+              "ViewState": "AQIAABEAAAAAAAAAAIA8wGkAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-11T04:47:40.955Z",
               "EditorCaption": ""
@@ -270,7 +270,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "HomeController.cs",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
@@ -291,12 +291,11 @@
               "RelativeToolTip": "MatMatShop.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-10-11T04:40:21.556Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-11T04:40:21.556Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Image.cs",
               "DocumentMoniker": "D:\\Code\\MatMatShop\\Entities\\Image.cs",
               "RelativeDocumentMoniker": "Entities\\Image.cs",

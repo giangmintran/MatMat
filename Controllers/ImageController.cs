@@ -103,7 +103,7 @@ namespace MatMatShop.Controllers
                 image.IsDeleted = false;
                 await _context.SaveChangesAsync();
 
-                await _hubContext.Clients.All.SendAsync("ReceiveNewImage", image.Id, image.ImageUrl, image.Tags);
+                await _hubContext.Clients.All.SendAsync("ReceiveRestoreImage", image.Id, image.ImageUrl, image.Tags);
             }
             return RedirectToAction("Trash");
         }
