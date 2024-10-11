@@ -1,0 +1,106 @@
+﻿@using MatMatShop.Entities
+@model IEnumerable<Image>
+
+<h2>Image Gallery</h2>
+
+<!-- Bộ lọc tag -->
+<form method="get" action="/Image/Filter">
+    <input type="text" name="tag" placeholder="Enter tag to filter" />
+    <button type="submit">Filter</button>
+</form>
+
+<!-- Bố cục dạng card -->
+<div class="card-container mt4">
+    @foreach (var image in Model)
+    {
+        <div class="card" data-image-id="@image.Id">
+            <img src="@Url.Content("~/images/" + System.IO.Path.GetFileName(image.ImageUrl))" alt="Image" class="image" />
+            <div class="tags"><strong>Tags: </strong>@image.Tags</div>
+            <form method="post" action="/Image/Delete/@image.Id" class="delete-form">
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
+        </div>
+    }
+</div>
+
+
+<!-- CSS tùy chỉnh cho bố cục card -->
+<style>
+    .card-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        width: 200px;
+        text-align: center;
+    }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+    .tags {
+        margin-top: 10px;
+        font-size: 14px;
+    }
+
+    .delete-form {
+        margin-top: 10px;
+    }
+
+    .delete-button {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .delete-button:hover {
+            background-color: #c0392b;
+        }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+
+<script type="text/javascript">
+    // Kết nối đến SignalR hub
+    const connection = new signalR.HubConnectionBuilder().withUrl("/imageHub").build();
+
+    connection.start().then(function () {
+        console.log("SignalR Connected.");
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    // Xử lý khi nhận ảnh mới
+    connection.on("ReceiveNewImage", function (imageId, imageUrl, tags) {
+        const cardContainer = document.querySelector('.card-container');
+        const newCard = `
+                <div class="card" data-image-id="${imageId}">
+                    <img src="${imageUrl}" class="image" />
+                    <div class="tags"><strong>Tags: </strong>${tags}</div>
+                    <form method="post" action="/Image/Delete/${imageId}" class="delete-form">
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </div>
+            `;
+        cardContainer.insertAdjacentHTML('beforeend', newCard);
+    });
+
+    // Xử lý khi nhận thông báo xóa ảnh
+    connection.on("ReceiveDeleteImage", function (imageId) {
+        const imageCard = document.querySelector(`.card[data-image-id="${imageId}"]`);
+        if (imageCard) {
+            imageCard.remove();
+        }
+    });
+</script>
+

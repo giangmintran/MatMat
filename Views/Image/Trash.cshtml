@@ -1,0 +1,78 @@
+﻿@using MatMatShop.Entities
+@model IEnumerable<Image>
+
+@{
+    ViewData["Title"] = "Trash";
+}
+
+<h2>Trash Bin</h2>
+
+@if (!Model.Any())
+{
+    <p>No images in the trash.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Tags</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var image in Model)
+            {
+                <tr>
+                    <td><img src="@image.ImageUrl" width="100" /></td>
+                    <td>@image.Tags</td>
+                    <td>
+                        <form method="post" action="/Image/Restore/@image.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-success">Restore</button>
+                        </form>
+
+                        <form method="post" action="/Image/PermanentlyDelete/@image.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete Permanently</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a href="/Image/Index" class="btn btn-secondary">Back to Gallery</a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+
+<script type="text/javascript">
+    // Kết nối đến SignalR hub
+    const connection = new signalR.HubConnectionBuilder().withUrl("/imageHub").build();
+
+    connection.start().then(function () {
+        console.log("SignalR Connected.");
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    // Xử lý khi nhận thông báo khôi phục ảnh
+    connection.on("ReceiveDeleteImage", function (imageId, imageUrl, tags) {
+        const tableBody = document.querySelector("tbody"); // Chọn tbody của bảng
+        const newRow = `
+            <tr>
+                <td><img src="${imageUrl}" width="100" /></td>
+                <td>${tags}</td>
+                <td>
+                    <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
+                        <button type="submit" class="btn btn-success">Restore</button>
+                    </form>
+                    <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Delete Permanently</button>
+                    </form>
+                </td>
+            </tr>
+        `;
+        tableBody.insertAdjacentHTML('beforeend', newRow); // Thêm hàng mới vào bảng
+    });
+});
+</script>
