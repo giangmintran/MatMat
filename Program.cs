@@ -37,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Image}/{action=Index}/{id?}");
 app.MapHub<ImageHub>("/imageHub");
 app.Run();

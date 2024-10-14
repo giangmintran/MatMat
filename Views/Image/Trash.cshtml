@@ -20,7 +20,7 @@
         <tbody>
             @foreach (var image in Model)
             {
-                <tr>
+                <tr data-image-id="@image.Id">
                     <td>
                         <img src="@image.ImageUrl" width="100" />
                     </td>
@@ -61,50 +61,60 @@
         if (!table) {
             // Nếu chưa có bảng, tạo bảng mới
             const tableHtml = `
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Tags</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><img src="${imageUrl}" width="100" /></td>
-                                <td>${tags}</td>
-                                <td>
-                                    <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
-                                        <button type="submit" class="btn btn-success">Restore</button>
-                                    </form>
-                                    <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
-                                        <button type="submit" class="btn btn-danger">Delete Permanently</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Tags</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="${imageUrl}" width="100" /></td>
+                                    <td>${tags}</td>
+                                    <td>
+                                        <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
+                                            <button type="submit" class="btn btn-success">Restore</button>
+                                        </form>
+                                        <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
+                                            <button type="submit" class="btn btn-danger">Delete Permanently</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
             // Thêm bảng mới vào DOM
             document.querySelector("h2").insertAdjacentHTML('afterend', tableHtml);
         } else {
             // Nếu bảng đã tồn tại, chỉ thêm một hàng mới
             const tableBody = table.querySelector("tbody");
             const newRow = `
-                    <tr>
-                        <td><img src="${imageUrl}" width="100" /></td>
-                        <td>${tags}</td>
-                        <td>
-                            <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
-                                <button type="submit" class="btn btn-success">Restore</button>
-                            </form>
-                            <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
-                                <button type="submit" class="btn btn-danger">Delete Permanently</button>
-                            </form>
-                        </td>
-                    </tr>
-                `;
+                        <tr>
+                            <td><img src="${imageUrl}" width="100" /></td>
+                            <td>${tags}</td>
+                            <td>
+                                <form method="post" action="/Image/Restore/${imageId}" style="display:inline;">
+                                    <button type="submit" class="btn btn-success">Restore</button>
+                                </form>
+                                <form method="post" action="/Image/PermanentlyDelete/${imageId}" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger">Delete Permanently</button>
+                                </form>
+                            </td>
+                        </tr>
+                    `;
             tableBody.insertAdjacentHTML('beforeend', newRow);
+        }
+    });
+
+    connection.on("ReceiveRestoreImage", function (imageId, imageUrl, tags) {
+        var row = document.querySelector(`tr[data-image-id="${imageId}"]`);
+        if (row) {
+            // Remove the row from the table
+            row.remove();
+        } else {
+            console.warn(`Row for image ID ${imageId} not found.`);
         }
     });
 </script>

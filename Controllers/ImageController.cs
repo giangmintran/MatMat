@@ -1,16 +1,15 @@
-﻿using MatMatShop.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using MatMatShop.Infrastructure;
+using MatMatShop.Infrastructure.Hubs;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using MatMatShop.Infrastructure.Hubs;
-using static System.Net.Mime.MediaTypeNames;
 using Image = MatMatShop.Entities.Image;
 
 namespace MatMatShop.Controllers
@@ -19,10 +18,17 @@ namespace MatMatShop.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IHubContext<ImageHub> _hubContext;
-        public ImageController(AppDbContext context, IHubContext<ImageHub> hubContext)
+        private readonly IWebHostEnvironment _environment;
+
+        public ImageController(
+            AppDbContext context,
+            IHubContext<ImageHub> hubContext,
+            IWebHostEnvironment environment
+        )
         {
             _context = context;
             _hubContext = hubContext;
+            _environment = environment;
         }
 
         // Hiển thị danh sách ảnh
@@ -41,39 +47,65 @@ namespace MatMatShop.Controllers
 
         // Xử lý việc upload ảnh
         [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile file, List<string> tags)
+        public async Task<IActionResult> Upload(List<IFormFile> files, string tags)
         {
-            // Lưu ảnh vào server
-            string fileName = Path.GetFileName(file.FileName);
-            string filePath = Path.Combine("wwwroot/images", fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            if (files == null || !files.Any())
             {
-                await file.CopyToAsync(stream);
+                return BadRequest("No files were uploaded.");
             }
 
-            var image = new Image
+            var uploadedImages = new List<Image>();
+            var tagList = tags.Split(',').Select(t => t.Trim()).ToList();
+
+            foreach (var file in files)
             {
-                ImageUrl = "/images/" + fileName,
-                Tags = string.Join(", ", tags),
-                CreatedDate = DateTime.Now
-            };
+                if (file.Length > 0)
+                {
+                    // Generate a unique file name
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string filePath = Path.Combine(_environment.WebRootPath, "images", fileName);
 
-            // Lưu vào database
-            _context.Images.Add(image);
-            await _context.SaveChangesAsync();
+                    // Ensure the directory exists
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
-            // Phát tín hiệu cho các client về ảnh mới
-            await _hubContext.Clients.All.SendAsync("ReceiveNewImage", image.Id, image.ImageUrl, image.Tags);
+                    // Save the file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
 
+                    // Create and save the image entity
+                    var image = new Image
+                    {
+                        ImageUrl = "/images/" + fileName,
+                        Tags = string.Join(", ", tagList),
+                        CreatedDate = DateTime.UtcNow
+                    };
+
+                    _context.Images.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    uploadedImages.Add(image);
+
+                    // Send SignalR notification for each image
+                    await _hubContext.Clients.All.SendAsync(
+                        "ReceiveNewImage",
+                        image.Id,
+                        image.ImageUrl,
+                        image.Tags
+                    );
+                }
+            }
+
+            // Redirect to Index action after all images are processed
             return RedirectToAction("Index");
         }
 
         // Lọc ảnh theo tag
         public async Task<IActionResult> Filter(string tag)
         {
-            var images = await _context.Images
-                .Where(i => i.Tags.Contains(tag) && !i.IsDeleted)
+            var images = await _context
+                .Images.Where(i => i.Tags.Contains(tag) && !i.IsDeleted)
                 .ToListAsync();
             return View("Index", images);
         }
@@ -88,7 +120,12 @@ namespace MatMatShop.Controllers
                 image.IsDeleted = true;
                 await _context.SaveChangesAsync();
                 // Phát tín hiệu cho các client về việc xóa ảnh
-                await _hubContext.Clients.All.SendAsync("ReceiveDeleteImage", id, image.ImageUrl, image.Tags);
+                await _hubContext.Clients.All.SendAsync(
+                    "ReceiveDeleteImage",
+                    id,
+                    image.ImageUrl,
+                    image.Tags
+                );
             }
             return RedirectToAction("Index");
         }
@@ -103,7 +140,12 @@ namespace MatMatShop.Controllers
                 image.IsDeleted = false;
                 await _context.SaveChangesAsync();
 
-                await _hubContext.Clients.All.SendAsync("ReceiveRestoreImage", image.Id, image.ImageUrl, image.Tags);
+                await _hubContext.Clients.All.SendAsync(
+                    "ReceiveRestoreImage",
+                    image.Id,
+                    image.ImageUrl,
+                    image.Tags
+                );
             }
             return RedirectToAction("Trash");
         }
@@ -136,7 +178,6 @@ namespace MatMatShop.Controllers
 
             return RedirectToAction("Trash");
         }
-
 
         // Hiển thị thùng rác
         public async Task<IActionResult> Trash()
