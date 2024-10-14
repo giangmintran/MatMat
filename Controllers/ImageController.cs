@@ -115,13 +115,28 @@ namespace MatMatShop.Controllers
             var image = await _context.Images.FindAsync(id);
             if (image != null)
             {
-                var filePath = image.ImageUrl;
+                var fileName = image.ImageUrl; // Assuming ImageUrl contains the relative path like "images/yourimage.jpg"
+
+                // Get the absolute path to the wwwroot folder
+                var wwwRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+
+                // Combine wwwroot path with image path
+                var filePath = Path.Combine(wwwRootPath, fileName);
+
+                // Remove the image record from the database
                 _context.Images.Remove(image);
                 await _context.SaveChangesAsync();
-                System.IO.File.Delete(filePath);
+
+                // Delete the image file from wwwroot
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
             }
+
             return RedirectToAction("Trash");
         }
+
 
         // Hiển thị thùng rác
         public async Task<IActionResult> Trash()
