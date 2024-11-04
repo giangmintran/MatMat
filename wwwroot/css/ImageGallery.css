@@ -1,0 +1,114 @@
+﻿/* File: wwwroot/css/ImageGallery.css */
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: left;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+    .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+.card-content {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.tags {
+    font-size: 14px;
+    margin-top: auto;
+}
+
+.delete-form {
+    margin-top: 10px;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .delete-button:hover {
+        background-color: #c0392b;
+    }
+
+/* Responsive cho điện thoại */
+@media (max-width: 600px) {
+    .card-container {
+        gap: 10px;
+    }
+
+    .card {
+        width: calc(50% - 10px); /* Mỗi thẻ chiếm 50% chiều rộng, trừ đi khoảng cách */
+        max-width: 100%;
+        padding: 8px;
+    }
+
+    .tags {
+        font-size: 12px;
+    }
+
+    .delete-button {
+        padding: 4px 8px;
+    }
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: flex-start; /* Align items to the start */
+    gap: 10px; /* Space between elements */
+    margin: auto; /* Center the form on larger screens */
+    padding: 10px; /* Padding inside the form */
+}
+
+.form-control {
+    width: 100%; /* Full width for select */
+    padding: 8px; /* Add padding for comfort */
+}
+
+.filter-button {
+    padding: 10px; /* Button padding */
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* Button text color */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+    .filter-button:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+    }
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .filter-form {
+        width: 100%; /* Full width on smaller screens */
+        padding: 5px; /* Reduce padding */
+    }
+
+    .filter-button {
+        width: 100%; /* Full width button */
+    }
+}

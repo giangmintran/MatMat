@@ -10,11 +10,20 @@
         <input type="file" name="files" id="imageFiles" class="form-control" multiple accept="image/*" required />
         <small class="form-text text-muted">You can select multiple images.</small>
     </div>
+
     <div class="form-group mt-4">
-        <label for="tags">Tags (comma separated)</label>
-        <input type="text" name="tags" id="tags" class="form-control" placeholder="e.g. nature, vacation" required />
-        <small class="form-text text-muted">These tags will be applied to all uploaded images.</small>
+        <label for="tags">Tags</label>
+        <select name="tags" id="tags" class="form-control" single required>
+            <option value="Bomber">Bomber</option>
+            <option value="bong_chay">Bóng chày</option>
+            <option value="khoac_gio">Khoác gió</option>
+            <option value="thun_the_thao">Thun thể thao</option>
+            <option value="pass">Đồ Pass</option>
+            <!-- Add more options as needed -->
+        </select>
+        <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple tags.</small>
     </div>
+
     <button type="submit" class="btn btn-primary mt-4">Upload</button>
 </form>
 

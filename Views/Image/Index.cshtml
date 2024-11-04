@@ -1,12 +1,22 @@
 ﻿@using MatMatShop.Entities
 @model IEnumerable<Image>
-
+<link rel="stylesheet" href="~/css/ImageGallery.css" />
+<link rel="stylesheet" href="~/css/ModalGallery.css" />
 <h2>Image Gallery</h2>
 
 <!-- Bộ lọc tag -->
-<form method="get" action="/Image/Filter">
-    <input type="text" name="tag" placeholder="Enter tag to filter" />
-    <button type="submit">Filter</button>
+<form method="get" action="/Image/Filter" class="filter-form">
+    <label for="tagFilter">Filter by tag:</label>
+    <select name="tag" id="tagFilter" class="form-control">
+        <option value="">-- Select Tag --</option>
+        <option value="Bomber">Bomber</option>
+        <option value="bong_chay">Bóng chày</option>
+        <option value="khoac_gio">Khoác gió</option>
+        <option value="thun_the_thao">Thun thể thao</option>
+        <option value="pass">Đồ Pass</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button type="submit" class="filter-button">Filter</button>
 </form>
 
 <!-- Bố cục dạng card -->
@@ -14,7 +24,9 @@
     @foreach (var image in Model)
     {
         <div class="card" data-image-id="@image.Id">
-            <img src="@image.ImageUrl" alt="Image" class="image" />
+            <a href="javascript:void(0);" onclick="openModal('@image.ImageUrl')">
+                <img src="@image.ImageUrl" alt="Image" class="image" />
+            </a>
             <div class="card-content">
                 <div class="tags"><strong>Tags: </strong>@image.Tags</div>
                 <form method="post" action="/Image/Delete/@image.Id" class="delete-form">
@@ -24,65 +36,13 @@
         </div>
     }
 </div>
-
-<!-- Updated CSS for card layout -->
-<style>
-    .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .card {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 10px;
-        width: 200px;
-        text-align: center;
-    }
-
-        .card img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
-
-    .card-content {
-        margin-top: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-    }
-
-    .tags {
-        font-size: 14px;
-        margin-top: auto;
-    }
-
-    .delete-form {
-        margin-top: 10px;
-    }
-
-    .delete-button {
-        background-color: #e74c3c;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-        .delete-button:hover {
-            background-color: #c0392b;
-        }
-</style>
-
+<!-- Modal để hiển thị ảnh lớn hơn -->
+<div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
-
 <script type="text/javascript">
     // Kết nối đến SignalR hub
     const connection = new signalR.HubConnectionBuilder().withUrl("/imageHub").build();
@@ -96,7 +56,6 @@
     // Xử lý khi nhận ảnh mới
     connection.on("ReceiveNewImage", function (imageId, imageUrl, tags) {
         const cardContainer = document.querySelector('.card-container');
-        alert(1);
         const newCard = `
                 <div class="card" data-image-id="${imageId}">
                         <img src="${imageUrl}" alt="Image" class="image" />
@@ -120,7 +79,6 @@
                         </form>
                     </div>
                 `;
-        console.log("11234", cardContainer);
         cardContainer.insertAdjacentHTML('beforeend', newCard);
     });
 
@@ -131,5 +89,16 @@
             imageCard.remove();
         }
     });
+    function openModal(imageUrl) {
+        var modal = document.getElementById("imageModal");
+        var modalImg = document.getElementById("modalImage");
+        modal.style.display = "block";
+        modalImg.src = imageUrl;
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("imageModal");
+        modal.style.display = "none";
+    }
 </script>
 
