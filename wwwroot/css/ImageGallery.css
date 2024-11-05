@@ -111,4 +111,8 @@
     .filter-button {
         width: 100%; /* Full width button */
     }
+
+    upload-btn {
+        width: 100%;
+    }
 }

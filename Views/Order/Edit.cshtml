@@ -1,0 +1,93 @@
+﻿@using MatMatShop.Entities
+@model Order
+
+@{
+    ViewData["Title"] = "Chỉnh sửa đơn hàng";
+}
+
+<h1>Chỉnh sửa đơn hàng</h1>
+
+<div class="container-fluid py-4">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row">
+            <!-- Form thông tin -->
+            <div class="col-lg-4 col-md-5 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Thông tin đơn hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="CustomerName" class="form-label">Tên khách hàng</label>
+                            <input asp-for="CustomerName" class="form-control" />
+                            <span asp-validation-for="CustomerName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label">Số điện thoại</label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Địa chỉ</label>
+                            <textarea asp-for="Address" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <input type="submit" value="Lưu" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid ảnh đã chọn -->
+            <div class="col-lg-8 col-md-7">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Danh sách ảnh đã chọn</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+                        {
+                            <div class="row g-3">
+                                @foreach (var detail in Model.OrderDetails)
+                                {
+                                    <div class="col-lg-4 col-md-6 col-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="img-container">
+                                                <img src="@detail.Image.ImageUrl" alt="Order Image" class="img-thumbnail" />
+                                            </div>
+                                            <div class="card-body p-2 p-md-3">
+                                                <div class="tags-container mt-1">
+                                                    <small class="text-muted">
+                                                        <i class="bi bi-tags me-1"></i>@detail.Image.Tags
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p>Không có ảnh nào đã chọn cho đơn hàng này.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

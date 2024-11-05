@@ -1,0 +1,236 @@
+﻿@using MatMatShop.Entities
+@model Order
+@{
+    ViewData["Title"] = "Tạo đơn hàng mới";
+}
+
+<style>
+    /* Custom scrollbar */
+    .custom-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #adb5bd #f8f9fa;
+    }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f8f9fa;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #adb5bd;
+            border-radius: 3px;
+        }
+
+    /* Card hover effect */
+    .image-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .image-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+    /* Checkbox style */
+    .custom-checkbox {
+        cursor: pointer;
+    }
+
+    /* Selected card style */
+    .card.selected {
+        border: 2px solid #0d6efd;
+        box-shadow: 0 0 0 1px #0d6efd;
+    }
+
+    /* Tags style */
+    .tags-container {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+
+    /* Image container ratio */
+    .img-container {
+        position: relative;
+        padding-top: 100%; /* 1:1 Aspect Ratio */
+        overflow: hidden;
+    }
+
+        .img-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+</style>
+
+<div class="container-fluid py-4">
+    <h1 class="mb-4">Tạo đơn hàng mới</h1>
+
+    <form asp-action="Create" id="createForm">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <!-- Form thông tin -->
+            <div class="col-lg-4 col-md-5 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Thông tin đơn hàng</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="CustomerName" class="form-label">Tên khách hàng</label>
+                            <input asp-for="CustomerName" class="form-control" />
+                            <span asp-validation-for="CustomerName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label">Số điện thoại</label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Địa chỉ</label>
+                            <textarea asp-for="Address" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check2-circle me-2"></i>Tạo mới
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Quay lại
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid ảnh -->
+            <div class="col-lg-8 col-md-7">
+                
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">Chọn ảnh</h5>
+                        <span class="badge bg-warning">
+                            <i class="bi bi-exclamation-circle me-1"></i>
+                            Vui lòng chọn ít nhất một ảnh
+                        </span>
+                    </div>
+
+                    <div class="container mt-3">
+                        <!-- Bộ lọc tag -->
+                        <label for="tagFilter" class="form-label">Filter by tag:</label>
+                        <div class="d-flex flex-wrap justify-content-start">
+                            <a href="/Order/FilterImage?tag=bomber" class="btn btn-outline-primary m-1">Bomber</a>
+                            <a href="/Order/FilterImage?tag=bong_chay" class="btn btn-outline-primary m-1">Bóng chày</a>
+                            <a href="/Order/FilterImage?tag=khoac_gio" class="btn btn-outline-primary m-1">Khoác gió</a>
+                            <a href="/Order/FilterImage?tag=thun_the_thao" class="btn btn-outline-primary m-1">Thun thể thao</a>
+                            <a href="/Order/FilterImage?tag=pass" class="btn btn-outline-primary m-1">Đồ Pass</a>
+                            <a href="/Order/FilterImage?tag=" class="btn btn-primary m-1">Clear</a>
+                            <!-- Thêm nhiều tùy chọn nếu cần -->
+                        </div>
+                    </div>
+
+                    <div class="card-body mt-2">
+                        <div class="row g-3 custom-scroll" style="max-height: 600px; overflow-y: auto;">
+                            @foreach (var image in ViewBag.AvailableImages)
+                            {
+                                <div class="col-lg-4 col-md-6 col-4">
+                                    @* col-4 cho mobile để hiển thị 3 ảnh/hàng *@
+                                    <div class="card h-100 image-card">
+                                        <div class="img-container">
+                                            <img src="@image.ImageUrl" alt="Product Image">
+                                        </div>
+                                        <div class="card-body p-2 p-md-3">
+                                            <div class="form-check custom-checkbox">
+                                                <input class="form-check-input image-checkbox"
+                                                       type="checkbox"
+                                                       name="selectedImages"
+                                                       value="@image.Id"
+                                                       id="image@(image.Id)">
+                                                <label class="form-check-label" for="image@(image.Id)">
+                                                    Chọn ảnh
+                                                </label>
+                                            </div>
+                                            <div class="tags-container mt-1">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-tags me-1"></i>@image.Tags
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+
+            // Xử lý chọn ảnh với animation
+            $('.image-card').click(function () {
+                const checkbox = $(this).find('.image-checkbox');
+                checkbox.prop('checked', !checkbox.prop('checked')); // Toggle checkbox state
+                if (checkbox.is(':checked')) {
+                    $(this).addClass('selected');
+                } else {
+                    $(this).removeClass('selected');
+                }
+            });
+
+            // Chọn checkbox thay đổi trạng thái card
+            $('.image-checkbox').change(function () {
+                const card = $(this).closest('.card');
+                if ($(this).is(':checked')) {
+                    card.addClass('selected');
+                } else {
+                    card.removeClass('selected');
+                }
+            });
+
+            // Validation form với thông báo đẹp hơn
+            $('#createForm').submit(function (e) {
+                const selectedImages = $('.image-checkbox:checked').length;
+                if (selectedImages === 0) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'Thông báo',
+                        text: 'Vui lòng chọn ít nhất một ảnh cho đơn hàng',
+                        icon: 'warning',
+                        confirmButtonText: 'Đồng ý'
+                    });
+                    return false;
+                }
+                return true;
+            });
+
+            // Đếm số ảnh đã chọn
+            function updateSelectedCount() {
+                const count = $('.image-checkbox:checked').length;
+                $('.selected-count').text(count);
+            }
+
+            $('.image-checkbox').change(updateSelectedCount);
+
+        });
+    </script>
+
+}

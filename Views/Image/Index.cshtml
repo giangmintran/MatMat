@@ -1,15 +1,19 @@
 ﻿@using MatMatShop.Entities
+@using MatMatShop.Utils
 @model IEnumerable<Image>
 <link rel="stylesheet" href="~/css/ImageGallery.css" />
 <link rel="stylesheet" href="~/css/ModalGallery.css" />
 <h2>Image Gallery</h2>
 
+<p>
+    <a asp-action="Upload" class="btn btn-primary">Upload</a>
+</p>
 <!-- Bộ lọc tag -->
 <form method="get" action="/Image/Filter" class="filter-form">
     <label for="tagFilter">Filter by tag:</label>
     <select name="tag" id="tagFilter" class="form-control">
         <option value="">-- Select Tag --</option>
-        <option value="Bomber">Bomber</option>
+        <option value="bomber">Bomber</option>
         <option value="bong_chay">Bóng chày</option>
         <option value="khoac_gio">Khoác gió</option>
         <option value="thun_the_thao">Thun thể thao</option>
@@ -28,7 +32,7 @@
                 <img src="@image.ImageUrl" alt="Image" class="image" />
             </a>
             <div class="card-content">
-                <div class="tags"><strong>Tags: </strong>@image.Tags</div>
+                <div class="tags"><strong>Tags: </strong> @DisplayText.GetTag(image.Tags)</div>
                 <form method="post" action="/Image/Delete/@image.Id" class="delete-form">
                     <button type="submit" class="delete-button">Delete</button>
                 </form>

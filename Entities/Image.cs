@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MatMatShop.Entities
 {
@@ -9,6 +10,8 @@ namespace MatMatShop.Entities
         public string Tags { get; set; } = null!;
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public List<OrderDetail>? OrderDetails { get; set; }
+
     }
 
 }

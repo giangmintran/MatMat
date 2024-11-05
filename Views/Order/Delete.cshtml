@@ -1,0 +1,54 @@
+﻿@using MatMatShop.Entities
+@model Order
+
+@{
+    ViewData["Title"] = "Xóa đơn hàng";
+}
+
+<h1>Xóa đơn hàng</h1>
+
+<h3>Bạn có chắc chắn muốn xóa đơn hàng này?</h3>
+<div>
+    <h4>Thông tin đơn hàng</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Tên khách hàng
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+        <dt class="col-sm-2">
+            Số điện thoại
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-2">
+            Địa chỉ
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+    </dl>
+
+    @if (Model.OrderDetails != null && Model.OrderDetails.Any())
+    {
+        <h4>Danh sách ảnh sẽ bị xóa</h4>
+        <div class="row">
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <div class="col-md-4 mb-3">
+                    <img src="@detail.Image.ImageUrl" class="img-thumbnail" alt="Order Image" />
+                    <p>Tags: @detail.Image.Tags</p>
+                </div>
+            }
+        </div>
+    }
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+    </form>
+</div>

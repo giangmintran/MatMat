@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MatMatShop.Infrastructure;
 using MatMatShop.Infrastructure.Hubs;
+using MatMatShop.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,12 @@ namespace MatMatShop.Controllers
     public class ImageController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IHubContext<ImageHub> _hubContext;
+        private readonly IHubContext<ImageHub, IImageClient> _hubContext;
         private readonly IWebHostEnvironment _environment;
 
         public ImageController(
             AppDbContext context,
-            IHubContext<ImageHub> hubContext,
+            IHubContext<ImageHub, IImageClient> hubContext,
             IWebHostEnvironment environment
         )
         {
@@ -88,8 +89,7 @@ namespace MatMatShop.Controllers
                     uploadedImages.Add(image);
 
                     // Send SignalR notification for each image
-                    await _hubContext.Clients.All.SendAsync(
-                        "ReceiveNewImage",
+                    await _hubContext.Clients.All.ReceiveNewImage(
                         image.Id,
                         image.ImageUrl,
                         image.Tags
@@ -105,7 +105,9 @@ namespace MatMatShop.Controllers
         public async Task<IActionResult> Filter(string tag)
         {
             var images = await _context
-                .Images.Where(i => i.Tags.Contains(tag) && !i.IsDeleted)
+                .Images.Where(i =>
+                    (string.IsNullOrEmpty(tag) || i.Tags.Contains(tag)) && !i.IsDeleted
+                )
                 .ToListAsync();
             return View("Index", images);
         }
@@ -120,12 +122,7 @@ namespace MatMatShop.Controllers
                 image.IsDeleted = true;
                 await _context.SaveChangesAsync();
                 // Phát tín hiệu cho các client về việc xóa ảnh
-                await _hubContext.Clients.All.SendAsync(
-                    "ReceiveDeleteImage",
-                    id,
-                    image.ImageUrl,
-                    image.Tags
-                );
+                await _hubContext.Clients.All.ReceiveDeleteImage(id, image.ImageUrl, image.Tags);
             }
             return RedirectToAction("Index");
         }
@@ -140,8 +137,7 @@ namespace MatMatShop.Controllers
                 image.IsDeleted = false;
                 await _context.SaveChangesAsync();
 
-                await _hubContext.Clients.All.SendAsync(
-                    "ReceiveRestoreImage",
+                await _hubContext.Clients.All.ReceiveRestoreImage(
                     image.Id,
                     image.ImageUrl,
                     image.Tags
