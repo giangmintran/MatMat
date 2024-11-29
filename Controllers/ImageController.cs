@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Image = MatMatShop.Entities.Image;
 
 namespace MatMatShop.Controllers
@@ -20,22 +21,25 @@ namespace MatMatShop.Controllers
         private readonly AppDbContext _context;
         private readonly IHubContext<ImageHub, IImageClient> _hubContext;
         private readonly IWebHostEnvironment _environment;
-
+        private readonly ILogger<ImageController> _logger;
         public ImageController(
             AppDbContext context,
             IHubContext<ImageHub, IImageClient> hubContext,
-            IWebHostEnvironment environment
+            IWebHostEnvironment environment,
+            ILogger<ImageController> logger
         )
         {
             _context = context;
             _hubContext = hubContext;
             _environment = environment;
+            _logger = logger;
         }
 
         // Hiển thị danh sách ảnh
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("This is a log message from the SampleController.");
             var images = await _context.Images.Where(i => !i.IsDeleted).ToListAsync();
             return View(images);
         }

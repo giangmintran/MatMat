@@ -16,6 +16,9 @@ namespace MatMatShop.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("This is an informational log.");
+            _logger.LogWarning("This is a warning log.");
+            _logger.LogError("This is an error log.");
             return View();
         }
 
